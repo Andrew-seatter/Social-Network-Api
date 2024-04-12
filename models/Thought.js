@@ -12,13 +12,14 @@ const thoughtSchema = new Schema (
      createdAt: {
          type: Date,
          default: Date.now,
+    }, 
 
-
-     }, username: {
+     username: {
          type: String,
          required: true,            
-
-     }, reactions: [
+    },
+    
+     reactions: [
         reactionSchema
 
  ],

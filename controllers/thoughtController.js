@@ -33,12 +33,12 @@ module.exports = {
       const thought = await Thought.create(req.body);
 
       const user = await User.findOneAndUpdate(
-        { _id: req.body.userId },
-        { $push: { thoughts: thought._id } },
+        { username: req.body.username },
+        { $push: { thoughts: thought } },
         { new: true }
       );
 
-      res.json(user);
+      res.json(thought);
     } catch (error) {
       res.status(500).json();
     }
@@ -55,7 +55,7 @@ module.exports = {
         { $pull: { thoughts: req.params.thoughtId } },
         { runValidators: true, new: true }
       );
-    res.json(user);
+    res.json(thought);
 
     } catch (error) {
       console.error(error);

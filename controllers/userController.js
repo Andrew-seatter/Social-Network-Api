@@ -38,16 +38,31 @@ module.exports = {
         res.status(500).json(err);
       }
     },
+
+    async updateUser(req, res) {
+        try {
+          const user = await User.findOneAndUpdate(
+            { _id: req.params.userId },
+            { $set: req.body },
+            { runValidators: true, new: true }
+          );
+
+          res.status(200).json(user)
+        } catch (error) {
+          res.status(500).json();
+        }
+      },
     
     async deleteUser(req, res) {
       try {
-        const user = await User.findOneAndRemove({ _id: req.params.UserId });
+        const user = await User.findOneAndDelete({ _id: req.params.userId });
   
         if (!user) {
+            res.json(req.params.userId)
           return res.status(404).json({ message: 'No such user exists' });
         }
   
-        Thought.deleteMany({ _id: {$in: user.thoughts}});
+        await Thought.deleteMany({ username: user.username});
   
         res.json({ message: 'User successfully deleted' });
       } catch (err) {
